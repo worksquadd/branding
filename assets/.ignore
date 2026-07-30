@@ -1,0 +1,4 @@
+# Hide all files and directories whose names start with a dot.
+.*
+.
+..
