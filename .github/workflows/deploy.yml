@@ -17,8 +17,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      DEPLOY_HOST: ${{ vars.WS_SERVER_RIFTY_1_HOST }}
-      DEPLOY_USER: root
+      DEPLOY_HOST: ${{ secrets.WORKSQUAD_HOST }}
+      DEPLOY_USER: ${{ secrets.WORKSQUAD_USER }}
       DEPLOY_PATH: /srv/worksquad/deploy_projects/branding
       NGINX_LINK: /etc/nginx/worksquad.d/branding.conf
     steps:
@@ -27,7 +27,7 @@ jobs:
       - name: Configure SSH
         uses: webfactory/ssh-agent@v0.9.1
         with:
-          ssh-private-key: ${{ secrets.WS_SERVER_SSH_RIFTY_1_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.WORKSQUAD_SSH_PRIVATE_KEY }}
 
       - name: Trust deployment host
         run: |
