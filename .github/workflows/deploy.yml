@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEPLOY_HOST: ${{ vars.WS_SERVER_RIFTY_1_HOST }}
-      DEPLOY_USER: maratik
+      DEPLOY_USER: root
       DEPLOY_PATH: /srv/worksquad/deploy_projects/branding
       NGINX_LINK: /etc/nginx/worksquad.d/branding.conf
     steps:

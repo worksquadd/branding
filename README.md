@@ -16,4 +16,4 @@
 
 ## Деплой
 
-Workflow использует организационные GitHub Actions значения `WS_SERVER_SSH_RIFTY_1_PRIVATE_KEY` и `WS_SERVER_RIFTY_1_HOST`. Он копирует проект в `/srv/worksquad/deploy_projects/branding`, поднимает контейнер и создаёт только `/etc/nginx/worksquad.d/branding.conf`.
+Workflow использует организационные GitHub Actions значения `WS_SERVER_SSH_RIFTY_1_PRIVATE_KEY` и `WS_SERVER_RIFTY_1_HOST`. Он подключается как `root`, копирует проект в `/srv/worksquad/deploy_projects/branding`, поднимает контейнер и создаёт только `/etc/nginx/worksquad.d/branding.conf`.

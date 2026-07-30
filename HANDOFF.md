@@ -4,4 +4,4 @@
 
 Последний запрос пользователя: создать публичный `worksquadd/branding` и настроить CI/CD на сервер `worksquad` через организационные SSH-секреты. Репозиторий создан и опубликован: https://github.com/worksquadd/branding.
 
-Дальше: материалы складывать в `assets/`; `serve_assets.py` покажет их автоматически. Правила скрытия находятся в `assets/.ignore` (сейчас `.*`, `.` и `..`). В listing отображаются только названия; файлы скачиваются по клику, папки открываются. Workflow использует org secret `WS_SERVER_SSH_RIFTY_1_PRIVATE_KEY` и org variable `WS_SERVER_RIFTY_1_HOST`.
+Дальше: материалы складывать в `assets/`; `serve_assets.py` покажет их автоматически. Правила скрытия находятся в `assets/.ignore` (сейчас `.*`, `.` и `..`). В listing отображаются только названия; файлы скачиваются по клику, папки открываются. Workflow использует org secret `WS_SERVER_SSH_RIFTY_1_PRIVATE_KEY`, org variable `WS_SERVER_RIFTY_1_HOST` и подключается к серверу как `root`.
