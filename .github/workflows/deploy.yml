@@ -45,17 +45,12 @@ jobs:
             set -eu
             cd '$DEPLOY_PATH'
             sudo docker compose up -d --build --remove-orphans
-            for attempt in $(seq 1 10); do
-              if curl -fsS http://127.0.0.1:6700/ > /dev/null; then
-                break
-              fi
-              if [ "$attempt" = 10 ]; then
-                sudo docker compose ps
-                sudo docker compose logs
-                exit 1
-              fi
-              sleep 1
-            done
+            sleep 2
+            if ! curl -fsS http://127.0.0.1:6700/ > /dev/null; then
+              sudo docker compose ps
+              sudo docker compose logs
+              exit 1
+            fi
             sudo ln -sfn '$DEPLOY_PATH/nginx.conf' '$NGINX_LINK'
             sudo nginx -t
             sudo systemctl reload nginx
