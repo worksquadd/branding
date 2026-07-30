@@ -1,0 +1,52 @@
+name: Deploy branding
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: branding-production
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_HOST: ${{ vars.WS_SERVER_RIFTY_1_HOST }}
+      DEPLOY_USER: maratik
+      DEPLOY_PATH: /srv/worksquad/deploy_projects/branding
+      NGINX_LINK: /etc/nginx/worksquad.d/branding.conf
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure SSH
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.WS_SERVER_SSH_RIFTY_1_PRIVATE_KEY }}
+
+      - name: Trust deployment host
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+      - name: Copy project files
+        run: |
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '$DEPLOY_PATH'"
+          rsync -az --delete --exclude .git ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
+
+      - name: Start application and reload Nginx
+        run: |
+          ssh "$DEPLOY_USER@$DEPLOY_HOST" "
+            set -eu
+            cd '$DEPLOY_PATH'
+            docker compose up -d --build --remove-orphans
+            curl -fsS http://127.0.0.1:6700/ > /dev/null
+            sudo ln -sfn '$DEPLOY_PATH/nginx.conf' '$NGINX_LINK'
+            sudo nginx -t
+            sudo systemctl reload nginx
+          "

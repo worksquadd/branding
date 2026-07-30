@@ -12,3 +12,8 @@
 - `serve_assets.py` — минимальный локальный сервер с directory listing.
 - `docker-compose.yml` — контейнер, доступный только на `127.0.0.1:6700`.
 - `nginx.conf` — фрагмент маршрута `/branding/` для общего Nginx-сервера.
+- `.github/workflows/deploy.yml` — деплой после каждого push в `main`.
+
+## Деплой
+
+Workflow использует организационные GitHub Actions значения `WS_SERVER_SSH_RIFTY_1_PRIVATE_KEY` и `WS_SERVER_RIFTY_1_HOST`. Он копирует проект в `/srv/worksquad/deploy_projects/branding`, поднимает контейнер и создаёт только `/etc/nginx/worksquad.d/branding.conf`.
